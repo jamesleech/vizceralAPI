@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace VizceralAPI.Controllers
 {
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    public class TrafficController : Controller
     {
         // GET api/values
         [HttpGet]
