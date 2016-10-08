@@ -37,21 +37,26 @@ namespace VizceralAPI.Services
         private async Task<Traffic> populateTraffic(int minutes)
         {
             var traffic = new Traffic();
-            traffic.nodes= await getNodes();
-            traffic.connections = await getconnections();
+            traffic.nodes = await getNodes(minutes);
+            traffic.connections = await getconnections(minutes);
 
-            traffic.serverUpdateTime=DateTime.Now.Ticks;
+            traffic.serverUpdateTime = (long)DateTime.UtcNow
+               .Subtract(new DateTime(1970,1,1,0,0,0,DateTimeKind.Utc))
+               .TotalMilliseconds;
+            
             return traffic;
         }
 
-        private Task<IList<Node>> getNodes()
+        private async Task<IList<Node>> getNodes(int minutes)
         {
-            throw new NotImplementedException();
+            return new List<Node>();
         }
 
-        private Task<IList<Connection>> getconnections()
+        private async Task<IList<Connection>> getconnections(int minutes)
         {
-            throw new NotImplementedException();
+
+            return new List<Connection>();
         }
+
     }
 }
