@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using VizceralAPI.Services;
 
 namespace VizceralAPI
 {
@@ -19,6 +20,7 @@ namespace VizceralAPI
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
+
             Configuration = builder.Build();
         }
 
@@ -29,6 +31,8 @@ namespace VizceralAPI
         {
             // Add framework services.
             services.AddMvc();
+            services.AddSingleton(typeof(ITrafficAggregator), 
+                new TrafficAggregator(Configuration["elastic"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

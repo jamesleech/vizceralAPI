@@ -3,42 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using VizceralAPI.Models;
+using VizceralAPI.Services;
 
 namespace VizceralAPI.Controllers
 {
     [Route("api/[controller]")]
     public class TrafficController : Controller
     {
-        // GET api/values
+        ITrafficAggregator _trafficAggregator;
+
+        public TrafficController(ITrafficAggregator trafficAggregator)
+        {
+            _trafficAggregator = trafficAggregator;
+        }
+
+        // GET api/traffic
         [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
+        public async Task<Traffic> Get()
+        {            
+            return await _trafficAggregator.Latest(1); 
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        // GET api/traffic/5
+        [HttpGet("{minutes}")]
+        public async Task<Traffic> Get(int minutes)
         {
-            return "value";
-        }
-
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            return await _trafficAggregator.Latest(minutes); 
         }
     }
 }
