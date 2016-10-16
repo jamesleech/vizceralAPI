@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace VizceralAPI.Models
 {
-  public class Node
+  public class Node : NodeBase
   {
     public string name { get; set; }
     public string renderer { get; set; }
